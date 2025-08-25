@@ -258,7 +258,7 @@ jobs:
           - os: ubuntu-22.04
             target: i686-unknown-linux-musl
             container: '{"image": "messense/rust-musl-cross:i686-musl"}'
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             target: s390x-unknown-linux-musl
             container: '{"image": "messense/rust-musl-cross:s390x-musl"}'
           - os: macos-13

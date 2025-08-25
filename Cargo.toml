@@ -20,7 +20,7 @@ required-features = ["dist-server"]
 
 [profile.release]
 codegen-units = 1
-lto = false
+lto = true
 strip = true
 
 [dependencies]

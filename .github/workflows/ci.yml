@@ -201,7 +201,7 @@ jobs:
             container: '{"image": "messense/rust-musl-cross:x86_64-musl"}'
           - os: ubuntu-22.04
             target: s390x-unknown-linux-musl
-            container: '{"image": "messense/rust-musl-cross:s390x-musl"}'
+            container: '{"image": "ghcr.io/iurly/rust-musl-cross:s390x-musl"}'
             lto: "false"
           - os: ubuntu-22.04
             binary: sccache-dist

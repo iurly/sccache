@@ -70,6 +70,7 @@ jobs:
           - os: ubuntu-22.04
             target: s390x-unknown-linux-musl
             container: '{"image": "messense/rust-musl-cross:s390x-musl"}'
+            rustflags: "-C lto=off"
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -88,7 +89,6 @@ jobs:
           DEVELOPER_DIR: ${{ matrix.developer_dir }}
           SDKROOT: ${{ matrix.sdkroot }}
           RUSTFLAGS: ${{ matrix.rustflags }}
-
       # Workaround for the lack of substring() function in github actions expressions.
       - name: Id
         id: id

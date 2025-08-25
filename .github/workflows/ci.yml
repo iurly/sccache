@@ -65,7 +65,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             # Oldest tested CUDA Toolkit version. Older CTKs might work, but they're
             # difficult to test without Ubuntu18.04 GHA runners or containerized jobs.
             cuda: "11.1"
@@ -77,15 +77,15 @@ jobs:
             rustc: "1.75.0"
             extra_desc: dist-server
             extra_args: --no-default-features --features=dist-tests test_dist_ -- --test-threads 1
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             rustc: stable
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             rustc: beta
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             rustc: nightly
             allow_failure: true
             extra_args: --features=unstable
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             extra_desc: no-default-features
             extra_args: --no-default-features
             allow_failure: true
@@ -196,21 +196,25 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             target: x86_64-unknown-linux-musl
             container: '{"image": "messense/rust-musl-cross:x86_64-musl"}'
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
+            target: s390x-unknown-linux-musl
+            container: '{"image": "messense/rust-musl-cross:s390x-musl"}'
+            lto: "false"
+          - os: ubuntu-22.04
             binary: sccache-dist
             extra_args: --no-default-features --features="dist-server"
             target: x86_64-unknown-linux-musl
             container: '{"image": "messense/rust-musl-cross:x86_64-musl"}'
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             target: aarch64-unknown-linux-musl
             container: '{"image": "messense/rust-musl-cross:aarch64-musl"}'
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             target: armv7-unknown-linux-musleabi
             container: '{"image": "messense/rust-musl-cross:armv7-musleabi"}'
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             target: i686-unknown-linux-musl
             container: '{"image": "messense/rust-musl-cross:i686-musl"}'
           - os: macos-13
@@ -243,6 +247,7 @@ jobs:
           DEVELOPER_DIR: ${{ matrix.developer_dir }}
           SDKROOT: ${{ matrix.sdkroot }}
           RUSTFLAGS: ${{ matrix.rustflags }}
+          CARGO_PROFILE_RELEASE_LTO: ${{ matrix.lto || 'true' }}
 
       # Workaround for the lack of substring() function in github actions expressions.
       - name: Id

@@ -1771,7 +1771,7 @@ checksum = "ff011a302c396a5197692431fc1948019154afc178baf7d8e37367442a4601cf"
 [[package]]
 name = "openssl-src"
 version = "300.2.3+3.2.1"
-source = "git+https://github.com/iurly/openssl-src-rs?branch=no-ibmca#d3fce32ab50194c487deaad0427c995da65549a6"
+source = "git+https://github.com/iurly/openssl-src-rs?branch=no-ibmca#8f8446580beb69b645faaaebe331dae5905d6b3e"
 dependencies = [
  "cc",
 ]

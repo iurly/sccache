@@ -90,6 +90,11 @@ jobs:
           SDKROOT: ${{ matrix.sdkroot }}
           RUSTFLAGS: ${{ matrix.rustflags }}
           CARGO_PROFILE_RELEASE_LTO: ${{ matrix.lto || 'true' }}
+          OPENSSL_NO_VENDOR: "0"
+          OPENSSL_CONFIGURE_ARGS: "no-engine no-dso no-module no-legacy"
+          OPENSSL_STATIC: "1"
+          OPENSSL_TARGET: "linux64-s390x"
+
       # Workaround for the lack of substring() function in github actions expressions.
       - name: Id
         id: id

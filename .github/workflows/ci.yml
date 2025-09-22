@@ -100,38 +100,24 @@ jobs:
             no_coverage: true
           # # M1 CPU
           - os: macos-14
-          - os: windows-2019
-            cuda: "11.1"
-            # Oldest supported version, keep in sync with README.md
-            rustc: "1.75.0"
-            extra_args: --no-fail-fast
-            extra_desc: cuda11.1
-          - os: windows-2019
-            cuda: "11.8"
-            rustc: nightly
-            allow_failure: true
-            extra_args: --features=unstable
-            extra_desc: cuda11.8
-            no_coverage: true
-          - os: windows-2019
-            cuda: "11.8"
-            rustc: beta
-            extra_desc: cuda11.8
           - os: windows-2022
             cuda: "12.8"
             # Oldest supported version, keep in sync with README.md
             rustc: "1.75.0"
             extra_args: --no-fail-fast
+            notest_cuda_compilers: clang++
             extra_desc: cuda12.8
           - os: windows-2022
             cuda: "12.8"
             rustc: nightly
             allow_failure: true
             extra_args: --features=unstable
+            notest_cuda_compilers: clang++
             extra_desc: cuda12.8
           - os: windows-2022
             cuda: "12.8"
             rustc: beta
+            notest_cuda_compilers: clang++
             extra_desc: cuda12.8
             no_coverage: true
     env:
@@ -141,6 +127,7 @@ jobs:
       BINARY_DIR: "target/debug"
       GRCOV_IGNORE_OPTION: '--ignore build.rs --ignore "/*" --ignore "[a-zA-Z]:/*"'
       GRCOV_EXCLUDE_OPTION: '--excl-br-line "^\s*((debug_)?assert(_eq|_ne)?!|#\[derive\()"'
+      NOTEST_CUDA_COMPILERS: ${{ matrix.notest_cuda_compilers || '' }}
     steps:
       - uses: ilammy/msvc-dev-cmd@v1
 
@@ -245,6 +232,10 @@ jobs:
             target: x86_64-unknown-linux-musl
             container: '{"image": "messense/rust-musl-cross:x86_64-musl"}'
           - os: ubuntu-22.04
+            target: s390x-unknown-linux-musl
+            container: '{"image": "messense/rust-musl-cross:s390x-musl"}'
+            lto: "false"
+          - os: ubuntu-22.04
             binary: sccache-dist
             extra_args: --no-default-features --features="dist-server"
             target: x86_64-unknown-linux-musl
@@ -264,10 +255,10 @@ jobs:
           - os: macos-14
             target: aarch64-apple-darwin
             macosx_deployment_target: 11.0
-          - os: windows-2019
+          - os: windows-2022
             target: x86_64-pc-windows-msvc
             rustflags: -Ctarget-feature=+crt-static
-          - os: windows-2019
+          - os: windows-2022
             target: aarch64-pc-windows-msvc
             rustflags: -Ctarget-feature=+crt-static
     steps:
@@ -288,6 +279,7 @@ jobs:
           DEVELOPER_DIR: ${{ matrix.developer_dir }}
           SDKROOT: ${{ matrix.sdkroot }}
           RUSTFLAGS: ${{ matrix.rustflags }}
+          CARGO_PROFILE_RELEASE_LTO: ${{ matrix.lto || 'true' }}
 
       # Workaround for the lack of substring() function in github actions expressions.
       - name: Id
